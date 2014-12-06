@@ -1,0 +1,65 @@
+TODO
+	Cite popular toy or activity
+	Walkthrough
+	Playtest
+
+POPULAR TOYS AND ACTIVITIES ON ONE SCREEN
+	Goldfish, like Playing Koi, feed fish at top of goldfish bowl.
+		Wobbly food shaker at top.  Tap.  Sprinkles.
+		Fish get hungry.
+		Hunger becomes more subtle.
+		Tap fish.  Smiles.
+		Shake the tablet to feed.
+	Remember the animals.  Flip the cards to remove them.
+		Cards gradually flip over.
+		Cards in center.  Perimeter.  More cards underneath.
+		ZooZoo.  
+		Ark.
+	Bouncing a beachball on the screen.
+		2d physics of deflection and radian of direction.
+		Tiny Trampoline:  Armadillo bouncing.
+	Garden.  Pick big apple before bug reaches it.  
+	Swat at a fly.
+	Balancing a ball.
+	Keep a beachball on screen by tilting.
+	Juggling balls.
+	Bouncing a ball.
+	Color in the lines.
+	Trace an image.
+	Playing notes on a musical pad.
+	Making sounds on a theremin.
+	Feed a Pet.
+	Stack blocks.
+	Tangram.
+	Drawing.
+
+POPULAR GAMES ON ONE SCREEN
+	Juggler.
+	Simon.
+	Crayon Physics puzzle.
+	Pong.
+	Soccer.
+	Billiards.
+	Katamari Damacy:  Roll up everything into a ball.
+	Osmosis:  Eat everything.
+	Galcon:  Conquer planets.
+	Marbles.  Knock the other marbles offscreen.
+	Angry birds:  Drag and release.
+	Tilting maze.
+	Rhythm Heaven on DS:  Flick or tap to beat.
+	Dodging bullets
+	Ikaruga:  Dodging bullets of other color.
+	Drawing
+	Pacman
+	Joust
+	Breakout
+	Asteroids
+	Yarg's Revenge (Anders)
+
+	
+Fri 12/05/2014 
+18:13
+
+Theme:  Entire Game on One Screen
+
+Games:
