@@ -47,7 +47,7 @@ import flash.display.MovieClip;
 			
 			
 			//Instructions Text
-			var instructions_text:TextField = new TextField();
+			instructions_text = new TextField();
 			
 			var instructions_text_format:TextFormat = new TextFormat("Arial", 16, 0xffffff, false, false, false);
 			instructions_text_format.align = TextFormatAlign.RIGHT;
@@ -57,7 +57,7 @@ import flash.display.MovieClip;
 			instructions_text.y = 4.5
 			instructions_text.width = 495
 			instructions_text.height = 61
-			instructions_text.text = "Box2DFlashAS3 2.0.1\n'Left'/'Right' arrows to go to previous/next example. \n'R' to reset."
+			instructions_text.text = "How long can you keep all balls on screen?\nMove mouse to tilt floor.\nPress R: reset."
 			addChild(instructions_text);
 			
 			// textfield pointer
@@ -81,6 +81,7 @@ import flash.display.MovieClip;
 			m_sprite.graphics.clear()
 			
 			// toggle between tests
+            /*
 			if (Input.isKeyPressed(39)){ // Right Arrow
 				m_currId++;
 				m_currTest = null;
@@ -89,8 +90,10 @@ import flash.display.MovieClip;
 				m_currId--;
 				m_currTest = null
 			}
+            else 
+             */
 			// Reset
-			else if (Input.isKeyPressed(82)){ // R
+			if (Input.isKeyPressed(82)){ // R
 				m_currTest = null
 			}
 			
@@ -146,6 +149,7 @@ import flash.display.MovieClip;
 		static public var m_currTest:Test;
 		static public var m_sprite:Sprite;
 		static public var m_aboutText:TextField;
+        static public var instructions_text:TextField;
 		// input
 		public var m_input:Input;
 	}

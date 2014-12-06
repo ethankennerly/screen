@@ -34,12 +34,14 @@ package TestBed{
 	
 	public class TestBounce extends Test{
 		
-		//public var laser:b2Body;
+		private var balls:Array;
+		private var bounceCount:int;
+        private var centerFraction:Number = 0.5;
+        private var screenWidth:Number = 640.0;
+		private var ballsPrevious:Array;
 		
 		public function TestBounce(){
-			// Set Text field
-			Main.m_aboutText.text = "Bounce";
-			
+			Main.instructions_text.text = "How long can you keep all balls on screen?\nMove mouse to tilt floor.\nPress R: reset."
 			m_world.SetGravity(new b2Vec2(0,10));
 			
 			var ground:b2Body = m_world.GetGroundBody();
@@ -57,19 +59,26 @@ package TestBed{
                           4.0;
 			fd.restitution = // 0.3;
                              // 0.75;
-                             1.01;
+                             1.0;
+                             // 1.01;
                              // 1.05;
 			fd.userData="circle";
 
 			var body:b2Body;
-
+            balls = [];
+            ballsPrevious = [];
+            bounceCount = 0;
 			bd.position.Set(100 / m_physScale, 120 / m_physScale);
             body = m_world.CreateBody(bd);
 			body.CreateFixture(fd);
+            balls.push(body);
+            ballsPrevious.push({isDescending: true, y: body.GetPosition().y});
 
 			bd.position.Set(540 / m_physScale, 0 / m_physScale);
             body = m_world.CreateBody(bd);
 			body.CreateFixture(fd);
+            balls.push(body);
+            ballsPrevious.push({isDescending: true, y: body.GetPosition().y});
 		}
 	
 		//======================
@@ -77,25 +86,52 @@ package TestBed{
 		//======================
 		
 		public override function Update():void{
-            lockFloorPosition();
+            ifBounce(balls, deflectCenter);
+			Main.m_aboutText.text = "Bounces " + bounceCount;
             MouseTilt(floor);
 			super.Update();
-            lockFloorPosition();
 		}
 
-        private function lockFloorPosition():void{
-            var position:b2Vec2 = new b2Vec2(640 / m_physScale / 2,
-                (360 + 95 - 50) / m_physScale);
-			floor.SetPosition(position);
+		private function ifBounce(balls:Array, deflect:Function):void{
+            for (var b:int = 0; b < balls.length; b++) {
+                var previous:Object = ballsPrevious[b];
+                var pos:b2Vec2 = balls[b].GetPosition();
+                if (previous.isDescending) {
+                    if (pos.y < previous.y) {
+                        bounceCount++;
+                        previous.isDescending = false;
+                        deflect(pos.x / m_physScale / screenWidth);
+                    }
+                }
+                else {
+                    previous.isDescending = previous.y < pos.y;
+                }
+                previous.y = pos.y;
+            }
+        }
+
+        /**
+         * Ball deflects floor. 2014-12-05 Anders Sajbel expects to need to adjust position.  Got bored.
+         */
+		private function deflectCenter(xFraction:Number):void{
+            xFraction = Math.max(0, Math.min(1, xFraction));
+            var tiltFraction:Number = xFraction - 0.5;
+            var tiltMax:Number = // 0.001;
+                                 0.0025;
+                                 // 0.01;
+                                 // 0.1;
+            var tilt:Number = tiltMax * tiltFraction;
+            centerFraction -= tilt;
+            centerFraction = Math.max(0.25, Math.min(0.75, centerFraction));
+            trace("deflectCenter: " + centerFraction);
         }
 
 		//======================
 		// Mouse Tilt
 		//======================
 		public function MouseTilt(floor:b2Body):void{
-            var screenWidth:Number = 640.0;
             var fraction:Number = Input.mouseX / screenWidth;
-            var tiltFraction:Number = fraction - 0.5;
+            var tiltFraction:Number = fraction - centerFraction;
             var tiltMaxRate:Number = // 0.25;
                                      // 0.5;
                                      1.0;
