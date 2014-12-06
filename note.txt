@@ -4,6 +4,10 @@ TODO
 	Playtest
 
 POPULAR TOYS AND ACTIVITIES ON ONE SCREEN
+	Bouncing a beachball on a board.
+		Mouse motion tilts the screen.
+		2d physics of deflection and radian of direction.
+		Tiny Trampoline:  Armadillo bouncing.
 	Goldfish, like Playing Koi, feed fish at top of goldfish bowl.
 		Wobbly food shaker at top.  Tap.  Sprinkles.
 		Fish get hungry.
@@ -15,9 +19,6 @@ POPULAR TOYS AND ACTIVITIES ON ONE SCREEN
 		Cards in center.  Perimeter.  More cards underneath.
 		ZooZoo.  
 		Ark.
-	Bouncing a beachball on the screen.
-		2d physics of deflection and radian of direction.
-		Tiny Trampoline:  Armadillo bouncing.
 	Garden.  Pick big apple before bug reaches it.  
 	Swat at a fly.
 	Balancing a ball.
