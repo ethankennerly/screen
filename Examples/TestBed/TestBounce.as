@@ -39,19 +39,54 @@ package TestBed{
         private var centerFraction:Number = 0.5;
         private var screenWidth:Number = 640.0;
 		private var ballsPrevious:Array;
+		private var spawnXFractions:Array = [0.25, 0.75, 0.5, 0.375, 0.675];
+		private var onBounceCounts:Array = [0, 5, 50, 200, 500, 1000, 2000, 5000];
+		private var onBounceCountIndex:int = 0;
 		
+        private var box:b2PolygonShape;
+        private var fd:b2FixtureDef;
+        private var bd:b2BodyDef;
+        private var circle:b2CircleShape;
+        private var body:b2Body;
+
 		public function TestBounce(){
 			Main.instructions_text.text = "How long can you keep all balls on screen?\nMove mouse to tilt floor.\nPress R: reset."
 			m_world.SetGravity(new b2Vec2(0,10));
+            balls = [];
+            ballsPrevious = [];
+            bounceCount = 0;
+		}
+	
+		//======================
+		// Member Data 
+		//======================
+		
+		public override function Update():void{
+            onBounceCount(bounceCount, spawnBall);
+            ifBounce(balls, deflectCenter);
+			Main.m_aboutText.text = "Bounces " + bounceCount;
+            MouseTilt(floor);
+			super.Update();
+		}
+
+        /**
+         * 2014-12-05 Anders Sajbel may expect another ball to spawn. Got bored.
+         */
+        private function onBounceCount(bounceCount:int, spawnBall:Function):void{
+            var index:int = Math.min(onBounceCountIndex, onBounceCounts.length);
+            if (onBounceCounts[index] <= bounceCount) {
+                spawnBall(onBounceCountIndex);
+                onBounceCountIndex++;
+            }
+        }
+
+        private function spawnBall(index:int):void{
+            box = new b2PolygonShape();
+            fd = new b2FixtureDef();
+            bd = new b2BodyDef();
+            circle = new b2CircleShape(30 / m_physScale);
 			
-			var ground:b2Body = m_world.GetGroundBody();
-			
-			var box:b2PolygonShape = new b2PolygonShape();
-			var fd:b2FixtureDef = new b2FixtureDef();
-			var bd:b2BodyDef = new b2BodyDef();
-			bd.type = b2Body.b2_dynamicBody;
-			
-			var circle:b2CircleShape = new b2CircleShape(30 / m_physScale);
+            bd.type = b2Body.b2_dynamicBody;
 			fd.shape = circle;
 			fd.density = 4;
 			fd.friction = // 0.4;
@@ -62,35 +97,16 @@ package TestBed{
                              1.0;
                              // 1.01;
                              // 1.05;
-			fd.userData="circle";
-
-			var body:b2Body;
-            balls = [];
-            ballsPrevious = [];
-            bounceCount = 0;
-			bd.position.Set(100 / m_physScale, 120 / m_physScale);
+			fd.userData = "circle";
+            index = index % spawnXFractions.length;
+            var x:Number = screenWidth * spawnXFractions[index] / m_physScale;
+            var y:Number = 0 / m_physScale;
+			bd.position.Set(x, y);
             body = m_world.CreateBody(bd);
 			body.CreateFixture(fd);
             balls.push(body);
-            ballsPrevious.push({isDescending: true, y: body.GetPosition().y});
-
-			bd.position.Set(540 / m_physScale, 0 / m_physScale);
-            body = m_world.CreateBody(bd);
-			body.CreateFixture(fd);
-            balls.push(body);
-            ballsPrevious.push({isDescending: true, y: body.GetPosition().y});
-		}
-	
-		//======================
-		// Member Data 
-		//======================
-		
-		public override function Update():void{
-            ifBounce(balls, deflectCenter);
-			Main.m_aboutText.text = "Bounces " + bounceCount;
-            MouseTilt(floor);
-			super.Update();
-		}
+            ballsPrevious.push({isDescending: true, y: y});
+        }
 
 		private function ifBounce(balls:Array, deflect:Function):void{
             for (var b:int = 0; b < balls.length; b++) {
