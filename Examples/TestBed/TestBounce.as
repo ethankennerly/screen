@@ -53,13 +53,21 @@ package TestBed{
 			fd.shape = circle;
 			fd.density = 4;
 			fd.friction = // 0.4;
-                          1.0;
+                          // 1.0;
+                          4.0;
 			fd.restitution = // 0.3;
                              // 0.75;
                              1.01;
+                             // 1.05;
 			fd.userData="circle";
-			bd.position.Set(100 / m_physScale, 100 / m_physScale);
+
 			var body:b2Body;
+
+			bd.position.Set(100 / m_physScale, 120 / m_physScale);
+            body = m_world.CreateBody(bd);
+			body.CreateFixture(fd);
+
+			bd.position.Set(540 / m_physScale, 0 / m_physScale);
             body = m_world.CreateBody(bd);
 			body.CreateFixture(fd);
 		}
