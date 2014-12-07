@@ -62,10 +62,11 @@ package TestBed{
         private var body:b2Body;
 
 		public function TestBounce(){
-			Main.m_aboutText.text = "MOUSE tilts floor. CLICK makes ball."
+			Main.m_aboutText.text = "MOUSE tilts floor. CLICK drops a ball."
 			m_world.SetGravity(new b2Vec2(0,10));
-            screen = new Rectangle(0, 0, 1.1 * screenWidth / m_physScale, 
-                                         1.5 * screenHeight / m_physScale)
+            screen = new Rectangle(
+                -0.1 * screenWidth / m_physScale, -1.0 * screenHeight / m_physScale,
+                1.2 * screenWidth / m_physScale, 2.5 * screenHeight / m_physScale)
             balls = [];
             ballsPrevious = [];
 		}
@@ -88,15 +89,19 @@ package TestBed{
         }
 
 		public override function Update():void{
-			if (Input.mouseDown){
+			if (Input.mousePressed){
                 start();
+                var inputNormal:Number = Input.mouseX / screenWidth;
+                spawnBall(inputNormal);
             }
 		    if (isOffscreen(balls)) {
                 reset();
             }
             if (isPlaying) {
                 if (isNextBounceCount(bounceCount)) {
-                    spawnBall(onBounceCountIndex);
+                    var index:int = onBounceCountIndex % spawnXFractions.length;
+                    var scheduledNormal:Number = spawnXFractions[index];
+                    spawnBall(scheduledNormal);
                     onBounceCountIndex++;
                 }
             }
@@ -117,18 +122,17 @@ package TestBed{
          * 2014-12-05 Anders Sajbel may expect another ball to spawn. Got bored.
          */
         private function isNextBounceCount(bounceCount:int):Boolean{
-            if (onBounceCounts.length - 1 <= onBounceCountIndex) {
-                return false;
+            var isNext:Boolean = false;
+            onBounceCountIndex = Math.max(balls.length, onBounceCountIndex);
+            if (onBounceCountIndex < onBounceCounts.length - 1) {
+                if (onBounceCounts[onBounceCountIndex] <= bounceCount) {
+                    isNext = balls.length <= onBounceCountIndex;
+                }
             }
-            if (onBounceCounts[onBounceCountIndex] <= bounceCount) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return isNext;
         }
 
-        private function spawnBall(index:int):void{
+        private function spawnBall(xNormal:Number):void{
             box = new b2PolygonShape();
             fd = new b2FixtureDef();
             bd = new b2BodyDef();
@@ -146,8 +150,7 @@ package TestBed{
                              // 1.01;
                              // 1.05;
 			fd.userData = "circle";
-            index = index % spawnXFractions.length;
-            var x:Number = screenWidth * spawnXFractions[index] / m_physScale;
+            var x:Number = screenWidth * xNormal / m_physScale;
             var y:Number = 0 / m_physScale;
 			bd.position.Set(x, y);
             body = m_world.CreateBody(bd);
