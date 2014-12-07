@@ -19,7 +19,7 @@
 
 package TestBed{
 	
-	
+    import flash.geom.Rectangle;	
 	
 	import Box2D.Dynamics.*;
 	import Box2D.Collision.*;
@@ -34,11 +34,16 @@ package TestBed{
 	
 	public class TestBounce extends Test{
 		
+		private static var bounceCount:int;
+
 		private var balls:Array;
-		private var bounceCount:int;
-        private var centerFraction:Number = 0.5;
-        private var screenWidth:Number = 640.0;
 		private var ballsPrevious:Array;
+        private var centerFraction:Number = 0.5;
+		private var isPlaying:Boolean = false;
+        private var screen:Rectangle;
+        private var screenWidth:Number = 640.0;
+        private var screenHeight:Number = 360.0;
+
 		private var spawnXFractions:Array = [0.25, 0.75, 0.5, 0.375, 0.675];
 		private var onBounceCounts:Array = [0, 5, 50, 200, 500, 1000, 2000, 5000];
 		private var onBounceCountIndex:int = 0;
@@ -50,19 +55,37 @@ package TestBed{
         private var body:b2Body;
 
 		public function TestBounce(){
-			Main.instructions_text.text = "How long can you keep all balls on screen?\nMove mouse to tilt floor.\nPress R: reset."
+			Main.instructions_text.text = "How many balls can you bounce?\nMove MOUSE to tilt floor. Click CENTER to start."
 			m_world.SetGravity(new b2Vec2(0,10));
+            screen = new Rectangle(0, 0, 1.1 * screenWidth / m_physScale, 
+                                         1.5 * screenHeight / m_physScale)
             balls = [];
             ballsPrevious = [];
-            bounceCount = 0;
 		}
-	
-		//======================
-		// Member Data 
-		//======================
-		
+
+        /**
+         * 2014-12-05 Jennifer Russ may expect to start and restart.
+         */
+        private function start():void{
+            bounceCount = 0;
+			Main.instructions_text.text = "";
+            isPlaying = true;
+        }
+
+        private function reset():void{
+            Main.m_currTest = null
+        }
+
 		public override function Update():void{
-            onBounceCount(bounceCount, spawnBall);
+			if (Input.mouseDown){
+                start();
+            }
+		    if (isOffscreen(balls)) {
+                reset();
+            }
+            if (isPlaying) {
+                onBounceCount(bounceCount, spawnBall);
+            }
             ifBounce(balls, deflectCenter);
 			Main.m_aboutText.text = "Bounces " + bounceCount;
             MouseTilt(floor);
@@ -73,8 +96,10 @@ package TestBed{
          * 2014-12-05 Anders Sajbel may expect another ball to spawn. Got bored.
          */
         private function onBounceCount(bounceCount:int, spawnBall:Function):void{
-            var index:int = Math.min(onBounceCountIndex, onBounceCounts.length);
-            if (onBounceCounts[index] <= bounceCount) {
+            if (onBounceCounts.length <= onBounceCountIndex) {
+                return;
+            }
+            if (onBounceCounts[onBounceCountIndex] <= bounceCount) {
                 spawnBall(onBounceCountIndex);
                 onBounceCountIndex++;
             }
@@ -106,6 +131,17 @@ package TestBed{
 			body.CreateFixture(fd);
             balls.push(body);
             ballsPrevious.push({isDescending: true, y: y});
+        }
+
+		private function isOffscreen(balls:Array):Boolean{
+            for (var b:int = 0; b < balls.length; b++) {
+                var pos:b2Vec2 = balls[b].GetPosition();
+                if (screen.bottom < pos.y 
+                || pos.x < screen.left || screen.right < pos.x) {
+                    return true;
+                }
+            }
+            return false;
         }
 
 		private function ifBounce(balls:Array, deflect:Function):void{

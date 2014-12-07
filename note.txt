@@ -1,7 +1,23 @@
 TODO
-	Cite popular toy or activity
-	Walkthrough
-	Playtest
+	When ball offscreen, end.
+	Click center to start.
+	Jennifer may expect auto restart.
+	Max tilt.
+	Thick ground.
+	Track high score.
+	--- Submit ---
+	Face on ball.
+	Scale up next ball.
+	Start with one ball.
+	Swinging floor or moving mouse up increases restitution.
+	bounce. hear xylophone scale.
+	bounce. ball smiles and looks down.
+	ball looks in direction moving toward.
+	ball looks toward nearest ball.
+	bounce. rectangle smiles and looks up.
+
+
+Theme:  Entire Game on One Screen
 
 POPULAR TOYS AND ACTIVITIES ON ONE SCREEN
 	Bouncing a beachball on a board.
@@ -63,4 +79,3 @@ Fri 12/05/2014
 
 Theme:  Entire Game on One Screen
 
-Games:

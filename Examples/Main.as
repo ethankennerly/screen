@@ -38,7 +38,7 @@ import flash.display.MovieClip;
 			
 			m_fpsCounter.x = 7;
 			m_fpsCounter.y = 5;
-			addChildAt(m_fpsCounter, 0);
+			// addChildAt(m_fpsCounter, 0);
 			
 			m_sprite = new Sprite();
 			addChild(m_sprite);
