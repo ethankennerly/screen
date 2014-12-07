@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="cache-control" content="no-cache, no-store">
+	<title>Building Bridges</title>
+	<meta name="description" content="Build a bounce. Game jam by Ethan Kennerly."/>
+	
+	<script src="../js/swfobject.js"></script>
+	<script src="flashvars.js"></script>
+	<script>
+		var params = {
+			menu: "false",
+			scale: "showAll",
+			allowFullscreen: "true",
+			allowScriptAccess: "always",
+			bgcolor: "",
+			wmode: "direct" // can cause issues with FP settings & webcam
+		};
+		var attributes = {
+			id:"bounce"
+		};
+		swfobject.embedSWF(
+			"bounce.swf", 
+			"altContent", "640", "360", "10.0.0", 
+			"../js/expressInstall.swf", 
+			flashvars, params, attributes);
+	</script>
+	<style>
+		html, pre{font-family:"Courier", cursive, sans-serif;}
+		body { margin:0; background:#333333}
+	</style>
+</head>
+<center>
+<body bgcolor=#333333>
+<table>
+<tr><td width=33%></td><td width=33%>
+<br>
+<br>
+	<div id="altContent">
+		<h1>bounce</h1>
+		<p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+	</div>
+</td><td width=33% style="padding-left:48px">
+<pre><font color=#eeeeee size=3>
+</font></pre>
+</td></tr>
+<tr><td></td><td>
+<pre><font color=#eeeeee size=3>
+Bounce
+======
+
+How many balls can you bounce?
+
+MOUSE to tilt floor.
+CLICK to make a ball.
+
+Game jam, Dec 5 - 7.  Ludum Dare 31.  Theme: "Entire Game on One Screen"
+
+Made with Box2D test bed.
+
+Post-mortem
+===========
+
+What went right: + Anders Sajbel and Jennifer Russ playtested.
+
+What went wrong: - Got the flu that week, and stayed in bed.
+</pre>
+</td></tr>
+</table>
+</center>
+</body>
+</html>
