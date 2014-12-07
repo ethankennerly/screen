@@ -95,8 +95,16 @@ package TestBed{
 			wallB.CreateFixture2(wall);
              */
 			// Bottom
-			wall.SetAsBox(1280/m_physScale/2, 100/m_physScale);
-			wallBd.position.Set(640 / m_physScale / 2, (360) / m_physScale);
+            var width:Number = //640
+                               960
+                               //1280
+            var height:Number = 100
+                                // 120
+            var yOffset:Number = // 0
+                                 50
+			wall.SetAsBox(
+                width/m_physScale/2, height/m_physScale);
+			wallBd.position.Set(640 / m_physScale / 2, (360 + yOffset) / m_physScale);
 			wallB = m_world.CreateBody(wallBd);
 			wallB.CreateFixture2(wall);
             floor = wallB;

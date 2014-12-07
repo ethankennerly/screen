@@ -1,10 +1,4 @@
 TODO
-	When ball offscreen, end.
-	Click center to start.
-	Jennifer may expect auto restart.
-	Max tilt.
-	Thick ground.
-	Track high score.
 	--- Submit ---
 	Face on ball.
 	Scale up next ball.
